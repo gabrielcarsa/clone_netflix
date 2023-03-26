@@ -24,7 +24,9 @@ class _HomeState extends State<Home> {
       final decodedData = jsonDecode(response.body);
       final results = decodedData['results'];
       setState(() {
-        movies = List.from(results).map((movieData) => Movie.fromJson(movieData)).toList();
+        movies = List.from(results)
+            .map((movieData) => Movie.fromJson(movieData))
+            .toList();
       });
     } else {
       throw Exception('Failed to load movie data');
@@ -58,6 +60,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+          backgroundColor: Color.fromRGBO(100, 101, 100, 100),
       extendBodyBehindAppBar: true,
       primary: false,
       body: SingleChildScrollView(
@@ -66,16 +69,41 @@ class _HomeState extends State<Home> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 1,
               height: 600,
-              child: movies.isNotEmpty
-                  ? Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(movies[1].getPosterUrl()),
-                          fit: BoxFit.cover,
-                        ),
+              child: Stack(
+                children: [
+                  movies.isNotEmpty
+                      ? Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(movies[1].getPosterUrl()),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )
+                      : const Center(child: CircularProgressIndicator()),
+                  Container(
+                    padding:
+                        const EdgeInsets.only(top: 450, right: 100, left: 100),
+                    alignment: Alignment.center,
+                    child: Text(
+                      movies[1].title,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        shadows: [
+                          Shadow(
+                            blurRadius: 2.0,
+                            color: Colors.grey,
+                            offset: Offset(1.5, 2.0),
+                          ),
+                        ],
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w800,
                       ),
-                    )
-                  : const Center(child: CircularProgressIndicator()),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(100),
@@ -93,7 +121,7 @@ class _HomeState extends State<Home> {
         ),
       ),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        //automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: _isScrolled ? 2.0 : 0.0,
         leading: IconButton(
