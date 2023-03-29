@@ -1,8 +1,10 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'models/Movie.dart';
+import '../models/Movie.dart';
+import '../widgets/movies_cards.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -27,6 +29,7 @@ class _HomeState extends State<Home> {
         movies = List.from(results)
             .map((movieData) => Movie.fromJson(movieData))
             .toList();
+        print(results);
       });
     } else {
       throw Exception('Failed to load movie data');
@@ -60,7 +63,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: Color.fromRGBO(100, 101, 100, 100),
+      backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
       primary: false,
       body: SingleChildScrollView(
@@ -69,54 +72,85 @@ class _HomeState extends State<Home> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 1,
               height: 600,
-              child: Stack(
-                children: [
-                  movies.isNotEmpty
-                      ? Container(
+              child: movies.isNotEmpty && movies.length >= 2
+                  ? Stack(
+                      children: [
+                        Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: NetworkImage(movies[1].getPosterUrl()),
                               fit: BoxFit.cover,
                             ),
                           ),
-                        )
-                      : const Center(child: CircularProgressIndicator()),
-                  Container(
-                    padding:
-                        const EdgeInsets.only(top: 450, right: 100, left: 100),
-                    alignment: Alignment.center,
-                    child: Text(
-                      movies[1].title,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        shadows: [
-                          Shadow(
-                            blurRadius: 2.0,
-                            color: Colors.grey,
-                            offset: Offset(1.5, 2.0),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(
+                              top: 450, right: 100, left: 100),
+                          alignment: Alignment.center,
+                          child: Text(
+                            movies[1].title,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 2.0,
+                                  color: Colors.grey,
+                                  offset: Offset(1.5, 2.0),
+                                ),
+                              ],
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
-                        ],
+                        ),
+                      ],
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(
+                      color: Colors.white,
+                    )),
+            ),
+            if (movies.isNotEmpty && movies.length >= 9)
+              Container(
+                width: MediaQuery.of(context).size.width * 1,
+                alignment: Alignment.topLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Melhores filmes",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(100),
-              child: const Text('as'),
-            ),
-            Container(
-              padding: const EdgeInsets.all(100),
-              child: const Text('as'),
-            ),
-            Container(
-              padding: const EdgeInsets.all(100),
-              child: const Text('as'),
-            ),
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        height: 200.0,
+                        viewportFraction: 1/4,
+                        enableInfiniteScroll: false,
+                        initialPage: 0,
+                      ),
+                      items: [1, 2, 3, 4, 5].map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return MoviesCards(
+                              title: movies[i].title,
+                              overview: movies[i].overview,
+                              posterPath: movies[i].getPosterUrl(),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              )
+            else
+              const Center(child: CircularProgressIndicator()),
           ],
         ),
       ),
