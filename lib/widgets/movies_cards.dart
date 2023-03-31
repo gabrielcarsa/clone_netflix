@@ -15,14 +15,12 @@ class MoviesCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          image: DecorationImage(
-            image: NetworkImage(posterPath),
-            fit: BoxFit.cover,
-          ),
+      width: 120,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        image: DecorationImage(
+          image: NetworkImage(posterPath),
+          fit: BoxFit.cover,
         ),
       ),
     );
