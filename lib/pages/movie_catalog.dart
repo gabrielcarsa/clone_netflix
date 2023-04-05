@@ -21,7 +21,7 @@ class _MovieCatalogState extends State<MovieCatalog> {
 
   _scrollListener() {
     double currentScrollPosition = _scrollController.position.pixels;
-    if(_scrollController.offset >0){
+    if (_scrollController.offset > 0) {
       setState(() {
         _isScrolledStart = true;
       });
@@ -35,7 +35,7 @@ class _MovieCatalogState extends State<MovieCatalog> {
         });
       }
       previousScrollPosition = currentScrollPosition;
-    }else{
+    } else {
       setState(() {
         _isScrolledStart = false;
       });
@@ -166,11 +166,14 @@ class _MovieCatalogState extends State<MovieCatalog> {
               child: movies.isNotEmpty && movies.length >= 2
                   ? Stack(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(movies[1].getPosterUrl()),
-                              fit: BoxFit.fill,
+                        GestureDetector(
+                          onTap: () => showDescription(context),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(movies[1].getPosterUrl()),
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                         ),
@@ -231,10 +234,13 @@ class _MovieCatalogState extends State<MovieCatalog> {
                       items: [1, 2, 3, 4, 5].map((i) {
                         return Builder(
                           builder: (BuildContext context) {
-                            return MoviesCards(
-                              title: movies[i].title,
-                              overview: movies[i].overview,
-                              posterPath: movies[i].getPosterUrl(),
+                            return GestureDetector(
+                              onTap: () => showDescription(context),
+                              child: MoviesCards(
+                                title: movies[i].title,
+                                overview: movies[i].overview,
+                                posterPath: movies[i].getPosterUrl(),
+                              ),
                             );
                           },
                         );
@@ -341,6 +347,35 @@ class _MovieCatalogState extends State<MovieCatalog> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> showDescription(BuildContext context) async {
+    return showDialog<void>(
+      useSafeArea: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 500), // definir a duração da animação
+          curve: Curves.easeOutQuint, // definir a curva da animação
+          transform: Matrix4.translationValues(0, MediaQuery.of(context).size.height * 0.6, 0), // definir a posição inicial do diálogo abaixo da tela
+          child: Container(
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(54, 54, 54, 1),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+              ),
+              child: Container(child: Text("asdf")),
+          ),
+          onEnd: () {
+            // código para ser executado após o término da animação
+          },
+        );
+      },
     );
   }
 }
