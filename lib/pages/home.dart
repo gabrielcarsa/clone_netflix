@@ -24,20 +24,26 @@ class _HomeState extends State<Home> {
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
+          unselectedItemColor: const Color.fromRGBO(170, 170, 170, 100),
+          selectedItemColor: Colors.white,
+          backgroundColor: Colors.black,
           currentIndex: _indiceAtual,
           onTap: (indice) => setState(() => _indiceAtual = indice),
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Tela 1',
+              icon: Icon(Icons.home_outlined),
+              activeIcon: Icon(Icons.home),
+              label: 'Início',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Tela 2',
+              icon: Icon(Icons.download_for_offline_outlined),
+              activeIcon: Icon(Icons.download_for_offline),
+              label: 'Downloads',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Tela 3',
+              icon: Icon(Icons.person_outline),
+              activeIcon: Icon(Icons.person),
+              label: 'Perfil',
             ),
           ],
         ),
