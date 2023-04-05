@@ -167,7 +167,12 @@ class _MovieCatalogState extends State<MovieCatalog> {
                   ? Stack(
                       children: [
                         GestureDetector(
-                          onTap: () => showDescription(context),
+                          onTap: () => showDescription(
+                              context,
+                              movies[1].id,
+                              movies[1].title,
+                              movies[1].overview,
+                              movies[1].getPosterUrl()),
                           child: Container(
                             decoration: BoxDecoration(
                               image: DecorationImage(
@@ -235,7 +240,12 @@ class _MovieCatalogState extends State<MovieCatalog> {
                         return Builder(
                           builder: (BuildContext context) {
                             return GestureDetector(
-                              onTap: () => showDescription(context),
+                              onTap: () => showDescription(
+                                  context,
+                                  movies[1].id,
+                                  movies[i].title,
+                                  movies[i].overview,
+                                  movies[i].getPosterUrl()),
                               child: MoviesCards(
                                 title: movies[i].title,
                                 overview: movies[i].overview,
@@ -350,26 +360,60 @@ class _MovieCatalogState extends State<MovieCatalog> {
     );
   }
 
-  Future<void> showDescription(BuildContext context) async {
+  Future<void> showDescription(BuildContext context, int id, String title,
+      String overview, String posterPath) async {
     return showDialog<void>(
-      useSafeArea: false,
       context: context,
       builder: (BuildContext context) {
         return AnimatedContainer(
-          duration: const Duration(milliseconds: 500), // definir a duração da animação
+          duration: const Duration(
+              milliseconds: 500), // definir a duração da animação
           curve: Curves.easeOutQuint, // definir a curva da animação
-          transform: Matrix4.translationValues(0, MediaQuery.of(context).size.height * 0.6, 0), // definir a posição inicial do diálogo abaixo da tela
+          transform: Matrix4.translationValues(
+              0,
+              MediaQuery.of(context).size.height * 0.6,
+              0), // definir a posição inicial do diálogo abaixo da tela
           child: Container(
-              height: MediaQuery.of(context).size.height * 0.4,
-              width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(54, 54, 54, 1),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
+            alignment: Alignment.topCenter,
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            width: MediaQuery.of(context).size.width,
+            height: 500,
+            decoration: const BoxDecoration(
+              color: Color.fromRGBO(54, 54, 54, 1),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
               ),
-              child: Container(child: Text("asdf")),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  flex:
+                      2, // define o flex para 1, para que ocupe 20% da largura total
+                  child: Container(
+                    color: Colors.blue,
+                    child: Container(
+                      height: 180,
+                      width: 180,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(posterPath),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex:
+                      4, // define o flex para 4, para que ocupe 80% da largura total
+                  child: Container(
+                    color: Colors.red,
+                    child: Text("fa"),
+                  ),
+                ),
+              ],
+            ),
           ),
           onEnd: () {
             // código para ser executado após o término da animação
