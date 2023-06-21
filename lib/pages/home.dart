@@ -1,4 +1,4 @@
-import 'package:clone_netflix/pages/downloads.dart';
+import 'package:clone_netflix/pages/favorites.dart';
 import 'package:clone_netflix/pages/movie_catalog.dart';
 import 'package:clone_netflix/pages/settings.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final List<Widget> telas = [
     const MovieCatalog(),
-    const Downloads(),
+    const Favorites(),
     const Settings(),
   ];
 

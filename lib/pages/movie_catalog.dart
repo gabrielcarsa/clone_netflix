@@ -385,31 +385,80 @@ class _MovieCatalogState extends State<MovieCatalog> {
                 topRight: Radius.circular(16),
               ),
             ),
-            child: Row(
+            child: Column(
               children: [
-                Expanded(
-                  flex:
-                      2, // define o flex para 1, para que ocupe 20% da largura total
-                  child: Container(
-                    color: Colors.blue,
-                    child: Container(
-                      height: 180,
-                      width: 180,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: NetworkImage(posterPath),
+                Row(
+                  children: [
+                    Expanded(
+                      flex:
+                          2, // define o flex para 1, para que ocupe 20% da largura total
+                      child: Container(
+                        color: Colors.blue,
+                        child: Container(
+                          height: 180,
+                          width: 180,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(posterPath),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    Expanded(
+                      flex:
+                          4, // define o flex para 4, para que ocupe 80% da largura total
+                      child: Container(
+                        height: 180,
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Text(
+                              title,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Expanded(
+                              child: Text(
+                                overview,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Color.fromARGB(255, 225, 195, 195),
+                                ),
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 6,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  flex:
-                      4, // define o flex para 4, para que ocupe 80% da largura total
-                  child: Container(
-                    color: Colors.red,
-                    child: Text("fa"),
+                Container(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: ElevatedButton.icon(
+                    onPressed: () => {},
+                    label: const Text(
+                      "Adicionar aos favoritos",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    icon: const Icon(
+                      Icons.star,
+                      color: Colors.black,
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                    ),
                   ),
                 ),
               ],
