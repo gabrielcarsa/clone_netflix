@@ -36,9 +36,9 @@ class _HomeState extends State<Home> {
               label: 'Início',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.download_for_offline_outlined),
-              activeIcon: Icon(Icons.download_for_offline),
-              label: 'Downloads',
+              icon: Icon(Icons.star_border),
+              activeIcon: Icon(Icons.star),
+              label: 'Favoritos',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),
